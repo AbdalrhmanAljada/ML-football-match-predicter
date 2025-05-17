@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Football Match Predictor</title>
+    <style>
+        body {
+            background: url("{{ url_for('static', filename='pitch.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 30px 50px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        select, input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            width: 250px;
+        }
+
+        .vs {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .form-row {
+            margin-top: 20px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #16a085;
+        }
+
+        h2 {
+            margin-top: 25px;
+            color: #f1c40f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Football Match Outcome Predictor</h1>
+        <form method="post">
+            <div class="row">
+                <select name="team" required>
+                    {% for t in teams %}
+                        <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+
+                <div class="vs">VS</div>
+
+                <select name="opponent" required>
+                    {% for t in teams %}
+                        <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label>Hour (0-23):<br>
+                    <input type="number" name="hour" min="0" max="23" required>
+                </label>
+            </div>
+
+            <div class="form-row">
+                <label>Venue:<br>
+                    <select name="venue">
+                        <option value="home">Home</option>
+                        <option value="away">Away</option>
+                    </select>
+                </label>
+            </div>
+
+            <input type="submit" value="Predict">
+        </form>
+
+        {% if result %}
+            <h2>Prediction: {{ result }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>
